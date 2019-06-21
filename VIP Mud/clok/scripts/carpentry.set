@@ -1,0 +1,17 @@
+#alias autosaw {#if {NOT %defined(autosaw) OR @autosaw = 0} {#say {autosaw enabled};@autosaw = 1} {#say {autosaw disabled};@autosaw = 0}}
+#trigger {You finish sawing, leaving you with a* plank.} {#if {@autosaw = 1} {put plank in @cart}}
+#trigger {You put a* plank in the * that is in the room.} {#if {@autosaw = 1} {get flitch}}
+#trigger {You remove a * flitch from inside *.} {#if {@autosaw = 1} {saw @planktype}}
+
+#alias autochop {#if {NOT %defined(autochop) OR @autochop = 0} {@autochop = 1;#say {Auto chopping of trees enabled}} {#say {auto chopping of trees disabled};@autochop = 0}}
+#trigger {You begin chopping at * tree with your *axe.} {#playloop {clok/logging/chop*2.wav} @vol;@chophandle = %playhandle}
+#trigger {You continue chopping at * with your *axe.} {#if {@craftgag = 1} {#gagline all}}
+#trigger {A large * tree falls to the ground with a loud crash!} {#pc @chophandle stop;#play {clok/logging/fallingtree.wav} @vol;#if {@autochop = 1} {@logs = 4;chop tree}}
+#trigger {You move along the length of the felled * tree, chopping off branches with your * as you go.} {#if {@craftgag = 1} {#gagline all};#play {clok/logging/chop*2.wav} @vol}
+#trigger {You chop a * branch that looks particularly straight and sturdy.} {#if {@craftgag = 1} {#gagline all}}
+#trigger {You place a * branch into your *.} {#if {@craftgag = 1} {#gagline all}}
+#trigger {The felled * tree is now completely stripped of any branches.} {#if {@autochop = 1} {chop tree};#if {@craftgag = 1} {#gagline all}}
+#trigger {Suddenly the remaining branches on the tree rustle violently! A moment later a hairy brown spider bursts forth chittering with anger!} {#play {clok/logging/insect*3.wav} @vol}
+#trigger {You chop away at a felled * tree with your *, splitting off a large * log.} {#if {@autochop = 1} {chop tree};#if {@craftgag = 1} {#gagline all};#play {clok/logging/chop*2.wav} @vol;#alarm 0.2 {#play {clok/logging/logs*2.wav} @vol}}
+#trigger {You chop away at the center of a felled * tree with your *, splitting it into two large * logs.} {#if {@autochop = 1} {#math logs {@logs - 1};heave log};#play {clok/logging/chop*2.wav} @vol;#alarm 0.1 {#play {clok/logging/logs*2.wav} @vol}}
+#trigger {You heave a large oak log into a* *.} {#if {@autochop = 1} {#if {@logs NOT = 0} {#math logs {@logs - 1};heave log}}}

@@ -1,0 +1,53 @@
+;aliases
+#Alias {reply} {tell @tellname %0} {}
+
+;buffer setup
+#var buffers {bbs|chat|ESP|question|say|tell}
+#var pointer 1;
+#var bufferName;
+
+#key alt-right {#math pointer {@pointer + 1};#if {@pointer > %numwords(@buffers,|)} {@pointer = 1} {};#say {%word(@buffers,|,@pointer)} voiceonly;@buffername = %word(@buffers,|,@pointer)}
+#key alt-left {#math pointer {@pointer - 1};#if {@pointer = 0} {@pointer = %numwords(@buffers,|)} {};#say {%word(@buffers,|,@pointer)} voiceonly;@buffername = %word(@buffers,|,@pointer)}
+
+#key alt-1 {#if {not %defined(@bufferName)} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,1)} voiceonly}}
+#key alt-2 {#if {%numwords(%var(@buffername),|) < 2} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,2)} voiceonly}}
+#key alt-3 {#if {%numwords(%var(@buffername),|) < 3} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,3)} voiceonly}}
+#key alt-4 {#if {%numwords(%var(@buffername),|) < 4} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,4)} voiceonly}}
+#key alt-5 {#if {%numwords(%var(@buffername),|) < 5} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,5)} voiceonly}}
+#key alt-6 {#if {%numwords(%var(@buffername),|) < 6} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,6)} voiceonly}}
+#key alt-7 {#if {%numwords(%var(@buffername)) < 7} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,7)} voiceonly}}
+#key alt-8 {#if {%numwords(%var(@buffername)) < 8} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,8)} voiceonly}}
+#key alt-9 {#if {%numwords(%var(@buffername),|) <9} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,9)} voiceonly}}
+#key alt-0 {#if {%numwords(%var(@buffername)) < 10} {#say {Nothing has been said in the @buffername buffer.} voiceonly} {#say {%word(%var(@buffername),|,10)} voiceonly}}
+
+;actual triggers
+
+#TRIGGER {ANNOUNCEMENT: *} {
+#play {clok\misc\announcement.wav} @vol} {}
+#TRIGGER {*** Mentor * is now available for mentoring players!  *} {#play {clok\misc\newbie.wav} @vol} {}
+#TRIGGER {*QUESTION - *]: *} {#play {clok\communicating\ooc.wav} @vol;
+#if {not %defined(question)} {@question = {%2 question, %3}} {@question = {%2 question, %3|@question}};#if {%numwords(@question,|) > 10} {@question = %delNItem(@question,%numwords(@question,|))}} {}
+#TRIGGER {*ESP-* - *]: *} {
+#Play {clok\communicating\ESP-Gray.wav} @vol;#if {not %defined(ESP)} {@ESP = {%3 on %2, %4}} {@ESP = {%3 on %2, %4|@ESP}};#if {%numwords(@ESP,|) > 10} {@ESP = %delNItem(@ESP,%numwords(@ESP,|))}} {}
+#TRIGGER {*TO * (OOC)]: *} {#Play {clok\communicating\tell.wav} @vol;#var tellname %2} {}
+#TRIGGER {*FROM * (OOC)]: *} {
+#Play {clok\communicating\tell.wav} @vol;#var tellname %2;
+#if {not %defined(tell)} {@tell = {%2 tells, %3}} {@tell = {%2 tells you, %3|@tell}};#if {%numwords(@tell,|) > 10} {@tell = %delNItem(@tell,%numwords(@tell,|))}} {}
+#TRIGGER {You hear the deep, echoing toll of a bell in your mind. *} {#play {clok\misc\death.wav} @vol} {}
+#TRIGGER {This is an automated script check, please use REPORT to indicate that you are at your computer.} {
+#play {clok\misc\warning.wav} @vol} {}
+#TRIGGER {You suddenly sense a birdcall emanating from *, along with the image of *.} {#play {clok\communicating\chirp.wav} @vol} {}
+
+;whispers, sayTo, says, exclaims, asks,
+#trigger {* says,* "*"} {#play {clok\socials\say.wav} 50;#if {not %defined(say)} {@say = {%1 says, %3}} {@say = {%1 says, %3|@say}};#if {%numwords(@say,|) > 10} {@say = %delNItem(@say,%numwords(@say,|))}} {}
+#trigger {* asks,* "*"} {#play {clok\socials\say.wav} 50;#if {not %defined(say)} {@say = {%1 asks, %2}} {@say = {%1 asks, %3|@say}};#if {%numwords(@say,|) > 10} {@say = %delNItem(@say,%numwords(@say,|))}} {}
+#trigger {* exclaims,* "*"} {#play {clok\socials\say.wav} 50;#if {not %defined(say)} {@say = {%1 exclaims, %3}} {@say = {%1 exclaims, %3|@say}};#if {%numwords(@say,|) > 10} {@say = %delNItem(@say,%numwords(@say,|))}} {}
+#trigger {* whispers, *} {#play {clok\socials\say.wav} 40;#if {not %defined(say)} {@say = {%1 whispers, %2}} {@say = {%1 whispers, %2|@say}};#if {%numwords(@say,|) > 10} {@say = %delNItem(@say,%numwords(@say,|))}} {}
+#trigger {  [[]CHAT - *][:] *} {#play {clok/communicating/chat.wav} @vol;#if {not %defined(chat)} {@chat = {%1, %2}} {@chat = {%1, %2|@chat}};#if {%numwords(@chat,|) > 10} {@chat = %delNItem(@chat,%numwords(@chat,|))}} {}
+#trigger {  [[]BBS - *]: * - * http~:~/~/*} {#say {New BBS Post!  The link has been coppied to the clipboard.};%clip(%4);#if {not %defined(BBS)} {@bbs = {Post from %1 in the %2 folder, subject, %3}} {@bbs = {Post from %1 in the %2 folder, subject, %3|@bbs}};#if {%numwords(@bbs,|) > 10} {@bbs = %delNItem(@bbs,%numwords(@bbs,|))}}
+
+
+#trigger {You are now ignoring tells from other player characters.} {#if {%ifword(tell,@buffers,|)} {#unvar tell;@buffers = %delitem(@buffers,tell)}}
+#trigger {You will no longer see or be able to use the Questions channel.} {#if {%ifword(question,@buffers,|)} {#unvar question;@buffers = %delitem(@buffers,question)}}
+#trigger {You are no longer ignoring tells from other player characters.} {#if {not %ifword(tell,@buffers,|)} {@buffers = {@buffers|tell}}}
+#trigger {You will now see and be able to use the Questions channel.} {#if {not %ifword(question,@buffers,|)} {@buffers = {@buffers|question}}}

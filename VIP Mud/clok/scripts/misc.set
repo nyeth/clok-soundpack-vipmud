@@ -1,0 +1,44 @@
+#trigger {A worker approaches you and informs you that you must pay for more time before you can continue your work.} {stop}
+#alias config {#if {%1 = ""} {#pick {P:Please select a config option|Herb grinding:config grind|Tanning Leather:config tanning|leatherworking:config leather|Fletching: config fletching|sawing planks:config sawing}};#if {%1 = "grind"} {#say {Please type where your fresh herbs are stored.};#prompt freshherbcont {Herb location};#say {Where would you like the ground herbs to be stored};#prompt herbstowcont {Herb destination};#say {What herb would you like to grind.  Exclude the word fresh.};#prompt herb {Herb Name};#say {Finally, how many?  Please put a number between 1 and 4.};#prompt herbnum {How many herbs?}};#if {%1 = "tan" OR %1 = "tanning"} {#say {Select the instrumment used for tanning};@tanloc = %pick(frame:frame|rack:rack);#say {Please type the leather desired.  (Soft, Natural, or Rigid.)};#prompt ptype {Leather type?};#say {You will be receiving either fur or leather from this process.  Which do you anticipate?};#prompt rawltype {fur or leather};#say {Finally, the script requires either skin or leather as a type to continue through the tanning process automaticly.  are you using skins or pelts?};@pelttype = %pick(p:type|skins:skin|pelts:pelt)};#if {%1 = "leather"} {#prompt ltype {What are you working with, leather or fur?}};#if {%1 = "fletching"} {#prompt arrowheadtype {What type of arrowhead are you fitting to the shaft?}};#if {%1 = "sawing"} {#prompt planktype {What type of plank do you wish to saw?}}}
+#alias handcart {#say {Please input the name of your handcart or wagon as exact as you are able.};#prompt cart {Handcart name?}}
+
+#trigger {(Type stop to stop *)} {#gagline voice}
+#trigger {*Queuing following command:  *} {#var queuing %2}
+#trigger {Roundtime: * second*.} {#var roundtime %1;#sub {%1 seconds.}}
+#trigger {Wait * seconds.} {#gagline all}
+
+;triggers that just don't do much or belong anywhere else for now.
+#trigger {You can't go that way.} {#gagline all;#play {clok/misc/cantgo*5.wav} @vol}
+#trigger {[(]You may clear your command queue at any time[)]} {#gagline all}
+#trigger {Queuing following command: *} {#gagline voice}
+#trigger {*You feel a brief tingling sensation in your mind, followed by the feeling that you've got some mail waiting for you.*} {#play {clok\misc\gotmail*2.wav} @vol} {}
+#trigger {You hear a knocking sound come from *.} {#play {clok\misc\knocking.wav} @vol} {}
+#trigger {*That's another * Only * more left to go!*} {#var taskinfested %2;#play {clok\misc\anotherDeadInfested.wav} @vol} {}
+#trigger {You've completed your task, you should go talk to your taskmaster.} {#play {clok\misc\reportback.wav} @vol} {}
+#trigger {*That should be enough to satisfy your guild for the time being.  Go back to your taskmaster and report!*} {#play {clok\misc\ReportBack.wav} @vol} {}
+#trigger {You're feeling *} {#if {%ifword(%1,hungry.)} {#play {clok\misc\Hungry1.wav} 80};#if {%ifword(%1,ravenous!)} {#play {clok\misc\hungry2.wav} 80}} {}
+#TRIGGER {*** You've been idle for a good ten minutes.  If you continue to be idle for another full minute, you'll be disconnected.} {#if {@gagcheck = 1} {#gagline voice};#play {clok\misc\idleout.wav} @vol;
+#if {@idler = 1} {status}} {}
+#TRIGGER {You feel you have practiced the * skill enough on your own for your previous studies to sink in, and you may now receive additional training in it.} {
+#play {clok\misc\practiceFinish.wav} @vol} {}
+#TRIGGER {It has been so long since your study of * that you will no longer glean any benefit from it, and are now free to train a new skill.} {
+#play {clok\misc\practiceLoss.wav} @vol} {}
+#TRIGGER {* says, "Okay, let's start training in *} {
+#play  {clok\misc\practiceStart.wav} @vol} {}
+#trigger {* gives you advice and pointers regarding the * skill, then goes through some practice exercises with you.} {#play {clok\misc\PracticeStart.wav} @vol} {}
+#TRIGGER {It's been long enough that you can ask for a new task now.} {
+#play {clok\misc\tasks.wav} @vol} {}
+#trigger {You take a bite of your *.} {#play {clok\misc\eat bite.wav} @vol} {}
+#trigger {You eat your *, finishing it off in one go*} {#play {clok\misc\eat all.wav} @vol} {}
+#trigger {You're too exhausted to *} {#play {clok\misc\warning.wav} @vol;#alarm 3 {#pc 0 stop}} {}
+#trigger { [*][*] * has been smitten!} {#play {clok\misc\smitten*5.wav} @vol} {}
+#TRIGGER {You follow a * black-armored patrolman off into the wilderness.} {#alarm 1 {leave}} {}
+#TRIGGER {You follow a Mistral Lake sentry *.} {#var sentry 1} {}
+#TRIGGER {A wide arch in this sturdy wooden guardhouse serves as the only point of entry to the town of Mistral Lake, providing some small amount of shelter for the active guards, should the weather turn foul.*} {#if {@sentry = 1} {leave;#var sentry 0}} {}
+#TRIGGER {Gnarled trees and dense foliage are slowly overcoming this section of the city, twisting and writhing around the tall stone [*]buildings as they struggle ever higher toward the sun. What was once a broad, solid flagstone boulevard has been greatly uprooted and overtuned by the plants growing up from beneath it or between the cracks separating individual flagstones. It is apparent the city once extended far to the southeast, though everything in that direction has been completely overcome by nature. To the northwest, the city ruins are yet safe from the encroaching plantlife.} {#if {@sentry = 1} {leave;#var sentry 0}} {}
+
+;container triggers
+#trigger {* has a * brought out for you.} {#var cart %2}
+#trigger {Wait * second* before you are able to travel again.} {#sub {wait %1 seconds}}
+#trigger {You head *, riding **.} {#gagline all}
+#trigger {Wagon travel time: * seconds.} {@wt = %1;#gagline all;#if {@wt > 1} {#alarm .5 {#say {Wagon Travel time: @wt seconds.}}}}

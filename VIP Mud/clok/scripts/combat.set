@@ -1,0 +1,136 @@
+#trigger {[(]Type stop to stop auto-battling.[)]} {#gagline all}
+#alias damvolset {#if {@damage <= 25} {#var damvol 10};#if {@damage > 25 and @damage <= 50} {#var damvol 20};#if {@damage > 50 and @damage <= 75} {#var damvol 30};#if {@damage > 75 and @damage <= 100} {#var damvol 40};#if {@damage > 100 and @damage <= 125} {#var damvol 50}; #if {@damage > 125 AND @damage <= 150} {#var damvol 60};#if {@damage > 150 AND @damage <= 175} {#var damvol 70};#if {@damage > 175 AND @damage <= 200} {#var damvol 75};#if {@damage > 200 AND @damage <= 225} {#var damvol 80};#if {@damage > 225 AND @damage <= 250} {#var damvol 85};#if {@damage > 250 AND @damage <= 275} {#var damvol 90};#if {@damage > 275 AND @damage <= 300} {#var damvol 95};#if {@damage > 300} {#var damvol 100}}
+#alias cg {#if {@cgag = 0} {@cgag = 1;#say {combat gaggin on}} {@cgag = 0;#say {combat gagging off}}}
+#Alias {autoshare} {#if {NOT %defined(autoshare) OR @autoshare = 0} {#say {You will now autoshare riln when looting.};@autoshare = 1} {#say {You will no longer autoshare riln when looting.};@autoshare = 0}} {}
+
+;drawing/sheathing
+#trigger {You remove * dagger from * dagger sheath*} {#play {clok/combat/drawdagger.wav} @vol}
+#trigger {You put your* dagger in your * dagger sheath.} {#play {clok/combat/sheathedagger.wav} @vol}
+
+;damage attempts
+#trigger {* lunges at * with *} {#if {@cgag = 1} {#gagline all}}
+#trigger {* tries to bite *} {#if {@cgag = 1} {#gagline all}}
+#trigger {* throw* a* punch at *} {#if {@cgag = 1} {#gagline all}}
+#trigger {* thrust* a palm strike towards *} {#if {@cgag = 1} {#gagline all}}
+#trigger {* snap* a front kick at *} {#if {@cgag = 1} {#gagline all}}
+#trigger {*kick* at *} {#if {@cgag = 1} {#gagline all}}
+#trigger {* thrust* with * at *} {#if {@cgag = 1} {#gagline all}}
+#trigger {* take* a quick jab at *} {#if {@cgag = 1} {#gagline all}}
+#trigger {*throws an awkward punch at *!} {#if {@cgag = 1} {#gagline all}}
+#trigger {You are unable to find an opening for your off-hand strike.} {#gagline all}
+#trigger {* slash* with * at *!} {#if {@cgag = 1} {#gagline all}}
+#trigger {* swing* * at *} {#if {@cgag = 1} {#gagline all}}
+#TRIGGER {* fires * arrow at *!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\shootYou.wav} @vol} {}
+#TRIGGER {* arrow streaks toward *!} {#if {@cgag = 1} {#if {NOT %ifword(%2,you)} {#gagline all}};#play {clok\combat\shootYou.wav} @vol} {}
+#TRIGGER {You fire * arrow at *!*} {#if {@cgag = 1} {#gagline all;#say {%3}};#play {clok\combat\YourArrow*3.wav} 60} {}
+#trigger {You fire * arrow at *! You adjust the aim of your shot, taking into account the speed and angle of the wind.*} {#if {@cgag = 1} {#gagline all;#say {%3}};#play {clok\combat\YourArrow*3.wav} @vol;} {}
+#trigger {You fire * arrow at *! You manipulate the air around the projectile, guiding it toward your target.*} {#if {@cgag = 1} {#gagline all;#say {%3}};#play {clok\combat\YourArrow*3.wav} @vol} {}
+#trigger {* retrieves a lead shot from *and loads it into *.} {#if {@cgag = 1} {#gagline all}} {}
+#trigger {* pulls the trigger of *.} {#if {@cgag = 1} {#gagline all}} {}
+#trigger {* fire* a * shot at *!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\othershot*2.wav} @vol} {}
+#trigger {* carefully loads * with some powder from *.} {#if {@cgag = 1} {#gagline all}}
+#trigger {* remove* a* from * and place* it in * sling.} {#if {@cgag = 1} {#gagline all}} {}
+#trigger {* removes * arrow from * and nocks it to *.} {#if {@cgag = 1} {#gagline all}} {}
+#trigger {You remove * arrow from * and nock it to *.} {#if {@cgag = 1} {#gagline all};#play {clok/combat/loadbow.wav} @vol}
+
+#trigger {* shoves at * with *} {#if {@cgag = 1} {#gagline all}} {}
+
+;combat abilities
+#trigger {* cut* deep into *'s * hamstring, knocking * to the ground!} {#if {@cgag = 1} {#gagline all};#alarm 0.5 {#play {clok\combat\OtherFall.wav} @vol}} {}
+#TRIGGER {You call upon the Great Bear Spirit, allowing its unearthly strength to surge through you!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\bearspirit*2.wav} @vol} {}
+#TRIGGER {You draw on the might of the Bull Spirit, inspiring a furious rage within you!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\bullSpirit.wav} @vol} {}
+#TRIGGER {You barrel toward * with inhuman strength and speed! *} {#if {@cgag = 1} {#gagline all}}
+#TRIGGER {You let loose with a mighty war shout!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\gruntraw*6.wav} @vol} {}
+#TRIGGER {You tense up your whole body, then release that tension with a shout of fury!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\gruntraw*6.wav} @vol} {}
+#TRIGGER {You draw upon the power of the Great Bear Spirit, feeling its mighty presence envelop you!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\BearSpirit*2.wav} @vol} {}
+#TRIGGER {You gain position on *} {#play {clok\combat\shift.wav} @vol} {}
+#trigger {With a twist of * wrists * manage to disarm *, sending * * clattering to the ground!} {#if {@autodisarm = 1} {#class disarming enable;#var disarmed %5;#if {@cgag = 1} {#gagline all};get @disarmed};#play {clok\combat\disarmed.wav} @vol} {}
+#trigger {You pick up * *} {stash @disarmed} {disarming}
+#trigger {You put * into your *.} {#class disarming disable} {disarming}
+#trigger {You twist your wrists and pull, but * manages to parry the attack.} {#if {@cgagg = 1} {#gagline all};#play {clok\combat\disarmParry.wav} @vol} {}
+#trigger {You maneuver into a position to flank *.} {#play {clok\combat\shift.wav} @vol} {}
+
+
+;damage
+#trigger {* attack* * with *!} {#if {@cgag = 1} {#if {NOT %ifword(%3,you)} {#gagline all}}}
+#TRIGGER {*Parried by *!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\parry*4.wav} @vol} {}
+#TRIGGER {*Blocked by *!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\shieldblock*3.wav} @vol} {}
+#trigger {   * (*)   Dodged!} {#if {@cgag = 1} {#gagline all};#play {clok/combat/miss*6.wav} @vol}
+#trigger {* (*)   Blocked!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\shieldblock*3.wav} @vol} {}
+#trigger {* (*)   Parried!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\parry*4.wav} @vol} {}
+
+
+#trigger {* (*)   * pierce* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/pierce*7.wav} @damvol}
+#trigger {* (*)   * pierce* damage*} {@damage = %3;damvolset;#play {clok/combat/pierce*7.wav} @damvol}
+
+#trigger {* (*)   * bludgeon* damage*} {@damage = %3;damvolset;#play {clok/combat/punch*10.wav} @damvol}
+#trigger {* (*)   * bludgeon* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/punch*10.wav} @damvol}
+
+#trigger {* (*)   * slash* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/slash*4.wav} @damvol}
+#trigger {* (*)   * slash* damage *} {@damage = %3;damvolset;#play {clok/combat/slash*4.wav} @damvol}
+
+#trigger {* (*)   * crush* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/crush*4.wav} @damvol}
+#trigger {* (*)   * crush* damage *} {@damage = %3;damvolset;#play {clok/combat/crush*4.wav} @damvol}
+
+#trigger {* (*)   * fire* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/firebolt*3.wav} @damvol}
+#trigger {* (*)   * fire* damage *} {@damage = %3;damvolset;#play {clok/combat/firebolt*3.wav} @damvol}
+
+#trigger {* (*)   * cold* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/cold*1.wav} @damvol}
+#trigger {* (*)   * cold* damage *} {@damage = %3;damvolset;#play {clok/combat/cold*1.wav} @damvol}
+
+#trigger {* (*)   * nether* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/nether*2.wav} @damvol}
+#trigger {* (*)   * nether* damage *} {@damage = %3;damvolset;#play {clok/combat/nether*2.wav} @damvol}
+
+#trigger {* (*)   * hack* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/hack*4.wav} @damvol}
+#trigger {* (*)   * hack* damage *} {@damage = %3;damvolset;#play {clok/combat/hack*4.wav} @damvol}
+
+#trigger {* (*)   * rake* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/claw*1.wav} @damvol}
+#trigger {* (*)   * rake* damage *} {@damage = %3;damvolset;#play {clok/combat/claw*1.wav} @damvol}
+
+#trigger {* (*)   * acid* damage* to the *} {@damage = %3;damvolset;#play {clok/combat/acid.wav} @damvol}
+#trigger {* (*)   * acid* damage *} {@damage = %3;damvolset;#play {clok/combat/acid.wav} @damvol}
+
+#trigger {   # cold damage*} {@damage = %1;damvolset;#play {clok/combat/cold*1.wav} @damvol}
+#trigger {   # acid damage*} { @damage = %1;damvolset;#play {clok/combat/acid.wav} @damvol}
+#trigger {   # hack damage*} {@damage = %1;damvolset;#play {clok/combat/hack*4.wav} @damvol}
+#trigger {   # nether damage*} {@damage = %1;damvolset;#play {clok/combat/nether*2.wav} @damvol}
+#trigger {   # fire damage*} {@damage = %1;damvolset;#play {clok/combat/firebolt*3.wav} @damvol}
+#trigger {   # crush damage*} {@damage = %1;damvolset;#play {clok/combat/crush*4.wav} @damvol}
+#trigger {   # slash damage*} {@damage = %1;damvolset;#play {clok/combat/slash*4.wav} @damvol}
+#trigger {   # bludgeon damage*}  {@damage = %1;damvolset;#play {clok/combat/punch*10.wav} @damvol}
+#trigger {   # pierce damage*} {@damage = %1;damvolset;#play {clok/combat/pierce*7.wav} @damvol}
+
+
+
+#trigger {* is * and held firm by * roots!} {#if {@cgag = 1} {#gagline all};#if {%ifword(%2,grasped)} {#play {clok\combat\RootsGrab*2.wav} @vol};#if {%ifword(%2,pulled to the ground)} {#play {clok\combat\rootsgrab*2.wav} @vol;#alarm 0.5 {#play {clok\combat\otherfall.wav} @vol}}} {}
+#trigger {The roots entangling * withdraw back into the ground.} {#if {@cgag = 1} {#gagline all};#play {clok\combat\RootsWithdraw.wav} @vol} {}
+#trigger {* manages to avoid the grasping roots!} {#if {@cgag = 1} {#gagline all};#play {clok\combat\miss*6.wav} @vol} {}
+
+;deaths
+#TRIGGER {* has been defeated.} {#if {NOT %ifword(%1, CHAT question )} {#gagline voice;#play {clok\combat\death_mob*5.wav} @vol}} {}
+#trigger {* dissipates into wisps of shadowy mist.} {#gagline voice;#play {clok\combat\death_mob*5.wav} @vol} {}
+#trigger {You hear the spine crack! That can't be good.} {#play {clok\combat\bonecrack.wav} @vol} {}
+#trigger {Several broken ribs driven into the chest! *} {#play {clok\combat\bonecrack.wav} @vol} {}
+#trigger {Larynx crushed! No more oxygen to the brain!} {#play {clok\combat\bonecrack.wav} @vol} {}
+#TRIGGER {* whimpers one last time and dies.} {#gagline voice;#play {clok\combat\death_mob*5.wav} @vol} {}
+#TRIGGER {Skull crushed with a loud **CRUNCH**!} {#play {clok\combat\CRUNCHSKULL.wav} @vol} {}
+#TRIGGER {Nasty slash enters the eye, shattering the socket.} {#play {clok\combat\bonecrack.wav} @vol} {}
+#TRIGGER {Nasty slash to the head exposes lumpy grey matter.} {#play {clok\combat\bonecrack.wav} @vol} {}
+#TRIGGER {Piercing strike hits the jugular and death quickly follows.} {#play {clok\combat\slicedeep.wav} @vol} {}
+#TRIGGER {* head is removed neatly at the neck.} {#play {clok\combat\sliceblood.wav} @vol} {}
+#TRIGGER {Piercing strike enters the head, leaving a clean hole.} {#play {clok\combat\bonecrack.wav} @vol} {}
+#TRIGGER {Piercing strike enters the eye and continues right on through.} {#play {clok\combat\bonecrack.wav} @vol} {}
+#TRIGGER {* falls to the ground in a lifeless heap.} {#play {clok\combat\death_mob*5.wav} @vol} {}
+#TRIGGER {* lets out a small shriek then vanishes into tiny wisps of * smoke.} {#play {clok\combat\death_mob*5.wav} @vol} {}
+#trigger {* fades into nothingness.} {#play {clok\combat\death_mob*5.wav} @vol} {}
+#trigger {* eyes suddenly glow bright red while the rest of it slowly fades to black before vanishing completely. *} {#play {clok\combat\death_mob*5.wav} @vol} {}
+#trigger {* neck is reduced to charcoal leaving the head with very little support.} {#play {clok\combat\fireblast*3.wav} @vol} {}
+#trigger {Fireball hits the eyeball, vaporizing it and much more.} {#play {clok\combat\fireblast*3.wav} @vol} {}
+#trigger {Head* completely fried to a crisp.} {#play {clok\combat\fireblast*3.wav} @vol} {}
+
+
+;misc stuff
+#trigger {You gather up * pieces of your fired ammo from the ground and place them in your *.} {#play {clok\combat\gathering.wav} @vol} {}
+#trigger {* falls to the ground!} {#if {@cgag = 1} {#gagline all};#alarm 0.5 {#play {clok\combat\OtherFall.wav} @vol}} {}
+#trigger {You fall to the ground!} {#alarm 0.5 {#play {clok\combat\YouFall.wav} @vol}} {}
+#trigger { ** The world around you goes black as you fall unconscious!} {#play {clok/combat/passout.wav} @vol;#alarm .3 {#play {clok/combat/youfall.wav} @vol}}

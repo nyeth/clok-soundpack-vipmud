@@ -1,0 +1,7 @@
+
+#Alias {autofish} {#if {@autofish = 0} {@autofish = 1;#say {Auto fishing enabled.}} {@autofish = 0;#say {autofishing disabled.}}} {}
+#trigger {You feel a tug at your line!  Try and pull it in!} {#if {@autofish = 1} {pull}}
+#trigger {You successfully reel in your catch, revealing it to be a* *!} {#if {@autofish = 1} {#var fish %2;#alarm @roundtime {put @fish in @cart}}}
+#trigger {You try to keep a firm grip on *, struggling against the tug of your catch!} {#if {@autofish = 1} {pull}}
+#trigger {Your line suddenly goes slack.  Your catch has gotten away.} {#if {@autofish = 1} {fish}}
+#trigger {You put a* * in *.} {#if {@autofish = 1} {#if {%2 = @fish} {fish}}}

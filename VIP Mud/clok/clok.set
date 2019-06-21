@@ -1,0 +1,22 @@
+;variables
+#var vol 50;
+
+
+;script loading
+#load scripts/carpentry.set;
+#load scripts/communications.set;
+#load scripts/combat.set;
+#load scripts/riln.set;
+#load scripts/socials.set;
+#load scripts/metalworking.set
+#load scripts/misc.set
+#load scripts/keystrokes.set;
+#load scripts/fishing.set
+#load scripts/herbalism.set;
+#load scripts/knapping.set;
+#load scripts/leatherworking.set;
+#load scripts/fletching.set;
+#load scripts/music.set;
+
+#TRIGGER {*(c) Contrarium} {#play {clok\music\*63.wav} 40} {}
+

@@ -1,0 +1,55 @@
+Changelog:
+0.6.
+*Updated combat file to make parrying and blocking work again.
+*updated combat file to allow for the attack sounds to be played with alchemical damage.  finally.
+*Fixed riln sounds to play when gotten from nethrim corpses.  Also, fixed autoshare as a result.
+*Added new forging items (forging hammers, lances) to the hilts, blades, hafts and heads commands
+*Removed the (traders only) specification from the forging scripts.  Use them responsibly and don't go claiming you can forge something you can't just because it's in your script.
+*Changed autofish to use the same container set via the handcart command
+*Made autoplay account for more types of music rather than sucking.
+
+
+0.5.
+*added autopaint so you didn't have to paint when fletching
+*fixed some scripts to not be required to turn them on twice at first use.  will be going through more.  the ones I can think of are autocarve, autopaint, and autofletch
+*made ESP colors use the ESP buffer, and changed it's name.
+*Added autoknap and autoknapping to knap broadheads.
+*Finished going through and changing the auto scripts to be more uniform.
+*made auto scripts messaging more consistent.
+*added combat support for combat brief and melee brief (hopefully).
+*Removed the you knock an arrow and fire if combat gagging is enabled.
+*Removed autoriln.
+*removed a blerb in the readme about Clayton's pack.  It is no longer developed, anyway.
+*ensured compatibility of VIPMud 2.0
+
+0.4
+*Oficial public release
+*Added config grind to accept and deal with more than one herb (hopefully).
+*Added sound/support in buffers for all ESP colors.
+*Redid combat to work with the combat changes.  If there are issues, PM Merin on bbs.
+*Re-added chat sounds and buffer.
+
+0.3.
+*Added herb grinding scripts.
+*implemented a rudamentary config system for the automated scripts.
+*Added an autoshare alias.
+*added autofletching (thanks, Liani).
+*added autoknapping (Thanks, Liani).
+*Removed chat triggers and buffer.
+*Due to an in game change, removed the script that would calculate study time in hours.
+*Brought leatherworking configs in line with the new config system.
+*Added a menu to access all of the config options.
+*Added a buffer for in game bbs announcements.  Do not have option 30 toggled if you wish to have the link automaticly coppied.
+
+0.2
+*Added autofishing
+*Added autoleatherworking (thanks, Liani).
+
+0.1:
+*Added metalworking (mining, lapidary, forging).
+*Added combat stuff
+*Made skills study report in a more user friendly time.
+*Added sound volume and numpad keys
+*Added communications stuff
+*Added other misc triggers and gags
+*Begin work, period.

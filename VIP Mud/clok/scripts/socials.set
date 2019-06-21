@@ -1,0 +1,8 @@
+#TRIGGER {You stand up.} {#gagline all;
+#play {clok\socials\stand.wav} @vol;#var sitting 0} {}
+#TRIGGER {You sit *.} {#var sitting 1;#play {clok\socials\sit.wav} @vol} {}
+#TRIGGER {You lie *.} {#gagline all;
+#play {clok\socials\lie.wav} @vol} {}
+#TRIGGER {You get up off *.} {#play {clok\socials\stand.wav} @vol} {}
+#trigger {* stands up.} {#play {clok\socials\stand.wav} @vol} {}
+#trigger {* scrambles back to its feet.} {#play {clok\socials\stand.wav} @vol} {}

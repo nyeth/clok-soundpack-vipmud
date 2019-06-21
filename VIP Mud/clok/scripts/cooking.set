@@ -1,0 +1,5 @@
+#trigger {You remove a strip of raw * meat from *.} {put meat in skil}
+#trigger {You put a strip of * meat in the iron skillet that you are holding in *.} {cook}
+#trigger {You hold your iron skillet over *.} {get meat from skil}
+#trigger {You remove a strip of cooked * meat from the * skillet in *.} {stash meat}
+#trigger {You put a strip of cooked * meat into your *.} {get meat from bar}

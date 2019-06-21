@@ -1,0 +1,52 @@
+
+#Alias {autobark} {#if {NOT %defined(autobark) OR @autobark = 0} {@autobark = 1;#say {Auto carving bark enabled.}} {#say {Automated carving bark disabled.};@autobark = 0}} {}
+#alias autofletch {#if {NOT %defined(autofletch) OR @autofletch = 0} {#say {autofletching enabled};@autofletch = 1} {#say {Autofletching disabled};@autofletch = 0}}
+#alias autopaint {#if {NOT %defined(autopaint) OR @autopaint = 0} {#say {autopainting enabled};@autopaint = 1} {#say {Autopainting disabled};@autopaint = 0}}
+
+#trigger {You remove a small * branch from *.} {#if {@autobark = 1} {carve}}
+#trigger {You carve away at your small * branch with your *, removing the rough layer of bark in shavings that fall to the ground.} {#if {@autobark = 1} {put stave in @cart}}
+
+#trigger {You put a small * stave in the * that is in the room.} {#if {@autobark = 1} {{get small branch from @cart}}}
+
+;carving arrow shafts;
+
+#trigger {You remove a small * stave from inside a *.} {#if {@autofletch = 1} {carve weapon arrow}}
+
+#trigger {You finished carving a small * stave, leaving you holding a* * arrow shaft.} {#if {@autofletch = 1} {put shaft in @cart}}
+
+#trigger {You put a* * arrow shaft in the * that is in the room.} {#if {@autofletch = 1} {get stave}}
+
+;working with shafts;
+
+#trigger {You remove the glass bottle of * paint base from your * and paint your * arrow shaft *.} {cut nock}
+
+#trigger {You manage to cut off the entire end of the shaft and discard it in disgust.} {#if {@autofletch = 1} {get shaft}}
+
+#trigger {You manage to cut a nock in one end of the arrow shaft.} {#if {@autofletch = 1} {measure shaft}}
+
+#trigger {You mark where it should be cut and return the * to your shoulders.} {#if {@autofletch = 1} {cut end}}
+
+#trigger {You manage to cut off too much of the shaft and discard it in disgust.} {#if {@autofletch = 1} {get shaft}}
+
+#trigger {You manage to cut the arrow down to size.} {#if {@autofletch = 1} {fletch shaft}}
+
+#trigger {You attach the * fletchings crookedly.  Try again.} {#if {@autofletch = 1} {fletch shaft}}
+
+#trigger {You manage to attach the fletchings to the shaft.} {#if {@autofletch = 1} {cut tip}}
+
+#trigger {You manage to split the arrow shaft down its entirety and discard it in disgust.} {#if {@autofletch = 1} {get shaft}}
+
+#trigger {You cut a slit down the tip of the arrow shaft, presumably to fit an arrowhead.} {#if {@autofletch = 1} {get @arrowheadtype}}
+
+#trigger {You remove a* * bodkin from *.} {#if {@autofletch = 1} {attach}}
+#trigger {You remove a* * broadhead from *.} {#if {@autofletch = 1} {attach}}
+
+#trigger {You try to attach your arrowhead but fail miserably.} {#if {@autofletch = 1} {attach}}
+
+#trigger {You slide the arrowhead in the slot at the tip of the arrow shaft, and use a spare piece of sinew to attach it.} {#if {@autofletch = 1} {put arrow in @cart}}
+
+#trigger {You put a* * arrow in the * that is in the room.} {#if {@autofletch = 1} {get shaft}}
+
+#trigger {You put a* * arrow in the * that you are wearing.} {#if {@autofletch = 1} {get shaft}}
+
+#trigger {You remove a* * arrow shaft from *.} {#if {@autopaint = 1} {paint shaft} {cut knock}}

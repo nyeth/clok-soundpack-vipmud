@@ -1,0 +1,80 @@
+#alias craftgag {#if {@craftgag = 0} {@craftgag = 1;#say {Crafting messages will now be gagged}} {#say {Crafting messages will no longer be gagged};@craftgag = 0}}
+;digging in tunnels
+#alias automine {#if {NOT %defined(automine) OR @automine = 0} {#say {auto mining enabled};@automine = 1} {@automine = 0;#say {auto mining disabled.}}}
+#trigger {You begin digging in the area with your *.  Heigh-ho!} {#if {@craftgag = 1} {#gagline all};#play {clok\mining\mining*14.wav} @vol} {}
+#trigger {You continue digging in the area with your *.  Heigh-ho!} {#if {@craftgag = 1} {#gagline all};#play {clok\mining\mining*14.wav} @vol} {}
+#trigger {You begin digging with your *, attempting to reinforce and expand the area.} {#if {@craftgag = 1} {#gagline all}; #play {clok\mining\mining*14.wav} @vol} {}
+#trigger {You begin digging with your *.} {#if {@craftgag = 1} {#gagline all};#play {clok\mining\mining*14.wav} @vol} {}
+#trigger {You continue digging with your *.} {#if {@craftgag = 1} {#gagline all}; #play {clok\mining\mining*14.wav} @vol} {}
+#trigger {* continues digging in the area with *.} {#sub {%1 continues to dig in the area.}} {}
+#trigger {* continues digging with *, attempting to reinforce and expand the area.} {#sub {%1 continues to dig in the area, attempting to reenforce and expand the area.}} {}
+#trigger {* continues digging with *.} {#sub {%1 continues digging.}} {}
+#TRIGGER {You dig away at the rubble in the area *, attempting to clear out the debris.} {#if {@craftgag = 1} {#gagline all};#play {clok\mining\ClearDebris*4.wav} @vol} {}
+
+;mining ores and stones
+#trigger {* falls to the ground. * quickly places it into *} {#if {@craftgag = 1} {#gagline all}}
+#TRIGGER {You begin mining, hoping to find some precious metals or stones.  * (*)} {#var mroll %2;#if {@craftgag = 1} {#gagline all};#play {clok\mining\mining*14.wav} @vol} {}
+#TRIGGER {You continue mining the area *} {#var mroll %1;#if {@craftgag = 1} {#gagline all};;#play {clok\mining\mining*14.wav} @vol} {}
+#TRIGGER {You begin mining away at * * vein with your *. Off to work we go! (*)} {#var vein %2;#if {@craftgag = 1} {#gagline all};#play {clok\mining\mining*14.wav} @vol} {}
+#TRIGGER {Suddenly, the glint of minerals causes you to pause. As the dust clears you see you have discovered * * vein!} {#var vein %2;#play {clok\mining\mining*14.wav} @vol;#alarm 0.3 {#play {clok\mining\vein*5.wav} @vol};#if {@automine = 1} {mine %2};#if {@craftgag = 1} {#sub {%2}} {}}
+#TRIGGER {You continue mining away at * with your *} {#if {@craftgag = 1} {#gagline all};#play {clok\mining\mining*14.wav} @vol} {}
+#trigger {* manages to dislodge * from *} {#if {@craftgag = 1} {#gagline all}} {}
+#TRIGGER {* has been exhausted of its resources.} {#unvar vein;#if {@automine = 1} {#if {@craftgag = 1} {#gagline all};mine}} {}
+#TRIGGER {The * falls to the ground. You quickly place it into *.} {#if {@craftgag = 1} {#gagline all}} {}
+#TRIGGER {You begin to try to mine but quickly realize you'll need to clear away the rubble in this area first! *} {#if {@craftgag = 1} {#gagline all};#if {@automine = 1} {#alarm 1 {dig rubble}}} {}
+#trigger {Looking around you appear to have successfully cleared away some of the rubble.} {#if {@automine = 1} {mine};#if {@craftgag = 1} {#gagline all}}
+#trigger { You will need to mine until you discover a mineral vein first.} {#if {@automine = 1} {mine}}
+
+;mine mishaps
+#TRIGGER {*A sudden hissing sound fills the air!} {#play {clok\mining\LeakingGas.wav} @vol;stop}
+#TRIGGER {* The hissing continues as a nauseating stench begins to fill the air.} {#Play {clok\mining\LeakingGas.wav} @vol}
+#TRIGGER {A spark from the flames of *} {#Play {clok\mining\furnace.wav} @vol} {}
+#TRIGGER {* The area rumbles ominously, bits of debris falling to the ground.} {#play {clok\mining\rumble*3.wav} @vol;stop}
+#TRIGGER {* Large chunks of debris fall from the ceiling as the area rumbles ominously!} {#play {clok\mining\CaveIn.wav} @vol} {}
+
+;smelting
+#TRIGGER {You pump the bellows, causing a bright flame to leap up beneath a furnace.} {#play {clok\mining\furnace.wav} @vol} {}
+#TRIGGER {It's a hideous, raging inferno in there!} {#play {clok\mining\infirno.wav} @vol} {}
+#Alias {autopolish} {#if {NOT %defined(autopolish) OR @autopolish = 0} {@autopolish = 1;#say {Auto polishing enabled}} {#say {Auto polishing disabled.};@autopolish = 0}} {}
+#trigger {You remove a small chunk of * from *.} {#var gem %1;#if {@autopolish = 1} {polish}} {}
+#TRIGGER {You * to pump the footpedal of the large stone grinder as you lean over it and grind away the loose dirt and stone of your *, the grinder whirring softly.} {#if {@craftgag = 1} {#gagline all};#play {clok\mining\grind.wav} @vol}
+#TRIGGER {You carefully grind down a few final areas as you finish your work, leaving you holding a polished cabochon of *.} {#var gemstone %1;#play {clok\mining\grind.wav} @vol;#if {@autopolish = 1} {put @gemstone in @cart}} {}
+#TRIGGER {As you attempt to grind away at the * something goes terribly wrong. The ore is ripped from your hands and caught in the grinder causing the entire gemstone to crack and crumble to dust.} {#play {clok\mining\stone cracking.wav} @vol;#if {@autopolish = 1} {get small chunk of @gem from @cart}} {}
+#trigger {You put a polished cabochon of * in *.} {#if {@autopolish = 1} {#if {%ifword(%1,@gemstone)} {get small chunk of @gem from @cart}}} {}
+
+;faceting
+#alias autofacet {#if {NOT %defined(autofacet) OR @autofacet = 0} {@autofacet = 1;#say {Auto faceting enabled.}} {#say {auto faceting disabled};@autofacet = 0}}
+#TRIGGER {You begin cutting careful angles into a * with your * working at creating a *.} {#playloop {clok\mining\chisel.wav} @vol;#var FacetHandle %playhandle} {}
+#trigger {You continue cutting careful angles into a * with your * working at creating a *.} {#if {@craftgag = 1} {#gagline all}}
+#TRIGGER {You add a few finishing touches to your work, leaving you holding * *.} {#pc @FacetHandle stop;#if {@autofacet = 1} {put %2 in @cart}} {}
+#trigger {As you attempt to cut away at the * something goes terribly wrong and the gemstone cracks, crumbling to dust.} {#play {clok\mining\stone cracking.wav} @vol;#pc @FacetHandle stop;#if {@autofacet = 1} {get polished cabochon of @gem from @cart}} {}
+#trigger {You stop faceting.} {#pc @facetHandle stop} {}
+#trigger {You remove a polished cabochon of * from *.} {#if {%ifword(%1,bloodstone)} {#say {This type of gemstone can not be faceted.};put %1 in @cart} {#if {@autofacet = 1} {faceting}}} {}
+#trigger  {You put a* * cut * * in the * that is in the room.} {#var cutgem %4;#if {@autofacet = 1} {get polished @cutgem from @cart}} {}
+#alias faceting {#pick {P:What kind of facet?|*baguette:facet baguette|brilliant:facet brilliant|briolette:facet briolette|crown:facet crown|cushion:facet cushion|emerald:facet emerald|heart:facet heart|marquise:facet marquise|mazarin:facet mazarin|mogul:facet mogul|navette:facet navette|octagon:facet octagon|oval:facet oval|paruzzi:facet paruzzi|pavilion:facet pavilion|pear:facet pear|princess:facet princess|radiant:facet radiant|rectangular:facet rectangular|regent:facet regent|rosette:facet rosette|round:facet round|single:facet single|square:facet square|star:facet star|step:facet step|table:facet table|tapered:facet tapered|teardrop:facet teardrop|thin:facet thin|trilliant:facet trilliant}}
+
+;forging
+#trigger {You will need to heat the metal before it can be forged.} {#if {@autoforge = 1} {heat;@queuing};#if {@craftgag = 1} {#gagline voice}}
+#trigger {You begin hammering away at * with your *, the glowing metal beginning to bend and warp. A shower of glowing sparks spread out about the anvil with each blow.} {#if {@craftgag = 1} {#gagline all};#playloop {clok\mining\anvil.wav} 50;#var forginghandle %playhandle} {}
+#trigger {You continue hammering away at * with your *, the glowing metal beginning to bend and warp. A shower of glowing sparks spread out about the anvil with each blow.} {#if {@craftgag = 1} {#gagline all}} {}
+#trigger {* ha* cooled off.} {#pc @forginghandle stop} {}
+#trigger {You stop forging.} {#pc @forginghandle stop} {}
+#trigger {You are attempting to craft an item that only requires * of material. *} {#if {@craftgag = 1} {#gagline all};#if {@autoforge = 1} {@queuing confirm}} {}
+#trigger {*If you continue, any extra material will be lost.} {#if {@craftgag = 1} {#gagline all}} {}
+#trigger {*You will need to CONFIRM the command if you wish to continue.} {#if {@craftgag = 1} {#gagline all}} {}
+#alias autoforge {#if {NOT %defined(autoforge) OR @autoforge = 0} {#say {auto forging enabled};@autoforge = 1} {#say {auto forging disabled.};@autoforge = 0}}
+#alias blades {#pick {p:Select blade to forge|*broadsword (three pounds):heat;forge blade broadsword|cutlass (three pounds):heat;forge blade cutlass|dussaack (1 pound):heat;forge blade dussack|dagger (one pound):heat;forge blade dagger|estoc (two pounds):heat;forge blade estoc|executioners-sword (eight pounds):heat;forge blade executioners-sword|falcata (four pounds):heat;forge blade falcata|falchion (four pounds):heat;forge blade falchion|flamberge (eight pounds):heat;forge blade flamberge|greatsword (eight pounds):heat;forge blade greatsword|javelin (four pounds):heat;forge blade javelin|lance (four pounds):heat;forge blade lance|longsword (four pounds):heat;forge blade longsword|main-gauche (one pound):heat;forge blade main-gauche|rapier (two pounds) (traders only):heat;forge blade rapier|sabre (two pounds) (traders only):heat;forge blade sabre|shortsword (two pounds):heat;forge blade shortsword|stiletto (one pound):heat;forge blade stiletto}}
+#alias commodities {#pick {p:select commodity|*gear (four pounds):heat;forge commodity gear|hinge (two pounds):heat;forge commodity hinge|hoop (two pounds):heat;forge commodity hoop|horseshoe (two pounds):heat;forge commodity horseshoe|nail (one pound):heat;forge commodity nail|spike (one pound):heat;forge commodity spike}}
+#alias hafts {#pick {p:select haft to forge|*ball-and-chain (four pounds):heat;forge haft ball-and-chain|flail (eight pounds):heat;forge haft flail|forging-hammer (three pounds):heat;forge haft forging-hammer|glaive (eight pounds):heat;forge haft glaive|greataxe (eight pounds):heat;forge haft greataxe|halberd (four pounds):heat;forge haft halberd|handaxe (four pounds):heat;forge haft handaxe|hatchet (four pounds):heat;forge haft hatchet|mace (four pounds):heat;forge haft mace|morning-star (four pounds):heat;forge haft morning-star|pickaxe (eight pounds):heat;forge haft pickaxe|pike (four pounds):heat;forge haft pike|scythe (six pounds):heat;forge haft scythe|sledgehammer (six pounds):heat;forge haft sledgehammer|spear (four pounds):heat;forge haft spear|trident (four pounds):heat;forge haft trident|voulge (four pounds):heat;forge haft voulge|warhammer (six pounds):heat;forge haft warhammer}}
+#alias heads {#pick {p:select head to forge|*ball-and-chain (four pounds):heat;forge head ball-and-chain|flail (eight pounds):heat;forge head flail|forging-hammer (three pounds):heat;forge head forging-hammer|glaive (eight pounds):heat;forge head glaive|greataxe (eight pounds):heat;forge head greataxe|halberd (four pounds):heat;forge head halberd|handaxe (four pounds):heat;forge head handaxe|hatchet (four pounds):heat;forge head hatchet|mace (four pounds):heat;forge head mace|morning-star (four pounds):heat;forge head morning-star|pickaxe (eight pounds) (traders only):heat;forge head pickaxe|pike (four pounds):heat;forge head pike|scythe (six pounds) (traders only):heat;forge head scythe|sledgehammer (six pounds):heat;forge head sledgehammer|spear (four pounds):heat;forge head spear|trident (four pounds):heat;forge head trident|voulge (four pounds):heat;forge head voulge|warhammer (six pounds):heat;forge head warhammer}}
+#alias hilts {#pick {p:Select hilt to forge|*broadsword (three pounds):heat;forge hilt broadsword|cutlass (three pounds):heat;forge hilt cutlass|dagger (one pound):heat;forge hilt dagger|dussack (one pound):heat;forge hilt dussack|estoc (two pounds):heat;forge hilt estoc|executioners-sword (eight pounds):heat;forge hilt executioners-sword|falcata (four pounds):heat;forge hilt falcata|falchion (four pounds):heat;forge hilt falchion|flamberge (eight pounds):heat;forge hilt flamberge|greatsword (eight pounds):heat;forge hilt greatsword|javelin (four pounds):heat;forge hilt javelin|lance (four pounds):heat;forge hilt lance|longsword (four pounds):heat;forge hilt longsword|main-gauche (one pound):heat;forge hilt main-gauche|rapier (two pounds) :heat;forge hilt rapier|sabre (two pounds):heat;forge hilt sabre|shortsword (two pounds):heat;forge hilt shortsword|stiletto (one pound):heat;forge hilt stiletto}}
+
+#alias armors {#pick {p:Select armor|breastplate 24 pounds:heat;forge armor breastplate|gauntlets 4 pounds:heat;forge armor gauntlets|gorget 4 pounds:heat;forge armor gorget|greathelm 10 pounds:heat;forge armor greathelm|greaves 16 pounds:heat;forge armor greaves|helm 6 pounds:heat;forge armor helm|sabatons 8 pounds:heat;forge armor sabatons|vambraces 12 pounds:heat;forge armor vambraces}}
+
+;Vicing
+#trigger {You place the * * * * into the vice and begin to attach the *. You file away a few rough points along the fitting, however you can't seem to get the parts to fit together. Perhaps you should try again.} {#var vicing %3;#if {@autoforge = 1} {vice %3}} {}
+
+;repairing weapons and armor
+#trigger {You place * into the coals of the forge, heating it to a bright orange glow before returning it to the anvil.} {#gagline voice} {}
+
+#trigger {You realize that your permitted time at * has expired.} {#if {@forginghandle > 0} {#pc @forginghandle stop}}

@@ -1,0 +1,39 @@
+#var autoclean;
+
+#alias {autoclean} {#if {@autoclean = 0} {@autoclean = 1;#say {Autocleaning enabled}} {@autoclean = 0;#say {autocleaning disabled.}}}
+
+#trigger {You pick up a * pelt with your * hand.} {#if {@autoclean = 1} {clean pelt}}
+#trigger {You pick up a * skin with your * hand.} {#if {@autoclean = 1} {clean skin}}
+
+#trigger {You remove a raw * pelt from *.} {#if {@autoclean = 1} {clean pelt}}
+#trigger {You remove a raw * skin from *.} {#if {@autoclean = 1} {clean skin}}
+
+#trigger {You retrieve a * from your * sheath and scrape at * pelt, cleaning off excess fat and sinew before stowing the * again.} {#if {@autoclean = 1} {put pelt in @cart}}
+#trigger {You retrieve a * from your * sheath and scrape at *, cleaning off excess fat and sinew before stowing the * again.} {#if {@autoclean = 1} {put skin in @cart}}
+
+#trigger {You attempt to clean a * pelt with your *, but completely botch the job.  You discard your work in disgust.} {#if {@autoclean = 1} {get raw pelt}}
+#trigger {You attempt to clean a * skin with your *, but completely botch the job.  You discard your work in disgust.} {#if {@autoclean = 1} {get raw skin}}
+
+#trigger {You put a cleaned * pelt in the * that is in the room.} {#if {@autoclean =1} {get raw pelt}}
+#trigger {You put a cleaned * skin in the * that is in the room.} {#if {@autoclean =1} {get raw skin}}
+#Alias {autotan} {#if {NOT %defined(autotan) OR @autotan = 0} {@autotan = 1;#say {Auto tanning on}} {@autotan = 0;#say {autotanning off.}}} {}
+
+#trigger {You remove a cleaned * pelt from *.} {#if {@autotan = 1} {pour bottle on pelt}}
+#trigger {You remove a cleaned * skin from *.} {#if {@autotan = 1} {pour bottle on skin}}
+
+#trigger {You remove a brown glass bottle from your * and pour it over a cleaned * pelt, allowing the smelly mixture to completely soak into the hide. You return the brown glass bottle to your *.} {#if {@autotan = 1} {put pelt on @tanloc}}
+#trigger {You remove a brown glass bottle from your * and pour it over a cleaned * skin, allowing the smelly mixture to completely soak into the hide. You return the brown glass bottle to your *.} {#if {@autotan = 1} {put skin on @tanloc}}
+
+#trigger {You carefully stretch a treated * pelt across the *, securing each corner with wooden pegs.} {#if {@autotan =1} {tan pelt @ptype}}
+#trigger {You carefully stretch a treated * skin across the *, securing each corner with wooden pegs.} {#if {@autotan =1} {tan skin @ptype}}
+
+#trigger {You scrape your * across the surface of the *, the hide now completely dry.} {#if {@autotan = 1} {#alarm 9 {get @rawltype from @tanloc}}}
+
+#trigger {You remove some * * from a large tanning *.} {#if {@autotan = 1} {put %2 in @cart}}
+
+#trigger {You put some * leather in *} {#if {@autotan = 1} {get cleaned @pelttype}}
+#trigger {You put some * fur in *} {#if {@autotan = 1} {get cleaned @pelttype}}
+#Alias {autoleather} {#if {@autoleather = 0} {@autoleather = 1;#say {Autoleather crafting enabled.}} {#say {autoleathercrafting disabled.};@autoleather = 0}} {}
+
+#trigger {You carefully trace a pattern into some * with your * before adding a few stitches along the edges of the *.} {#if {@autoleather = 1} {#alarm @roundtime {lcraft @ltype}}}
+

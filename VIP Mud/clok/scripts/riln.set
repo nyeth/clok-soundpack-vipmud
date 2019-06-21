@@ -1,0 +1,11 @@
+#TRIGGER {* hands you * riln.} {#var riln %2;#play {clok\misc\riln*4.wav} @vol;#if {@autoriln = 1 AND %defined(rilncontainer)} {open @rilncontainer;put @riln riln in @rilncontainer;close @rilncontainer}}
+#TRIGGER {* takes * and pays you * riln for it, then *} {#Play {clok\misc\riln*4.wav} @vol} {}
+#TRIGGER {You sell the commodities in your * to a buyer for * riln.} {#play {clok\misc\riln*4.wav} @vol} {}
+#TRIGGER {You sell your * to * for * riln.} {#play {clok\misc\riln*4.wav} @vol} {}
+#trigger {You sell some commodities in your * to a buyer for * riln.} {#play {clok\misc\riln*4.wav} @vol} {}
+#trigger {You pay the storage fee of * and hand your * to a bank teller, who promptly stores it in the bank vault for you.} {#play {clok\misc\riln*4.wav} @vol} {}
+#trigger {You * * riln * your * bank account.} {#play {clok\misc\riln*4.wav} @vol} {}
+#trigger {You find * riln on the * of *.} {#var riln %1;#if {@autoshare = 1} {share %1}} {}
+#trigger {You hand * riln*} {#play {clok\misc\riln*4.wav} @vol} {}
+#trigger {You gather * riln from *.} { #play {clok\misc\riln*4.wav} @vol} {}
+#trigger {You pilfer * riln from *.} {#var riln %1;#play {clok\misc\riln*4.wav} @vol} {}

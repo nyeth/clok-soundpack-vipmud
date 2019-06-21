@@ -1,0 +1,6 @@
+
+#Alias {autogrind} {#if {NOT %defined(autogrind) OR @autogrind = 0} {@autogrind = 1;#say {Auto herb grinding enabled}} {@autogrind = 0;#say {Auto herbgrinding disabled.}}} {}
+#var herbnum;
+#trigger {You transfer * from * into * mortar and pestle*} {#if {@autogrind = 1} {grind}}
+#trigger {You've finished your grinding.} {#if {@autogrind = 1} {transfer @herb from mort to @herbstowcont}}
+#trigger {You transfer * from your * mortar and pestle into *.} {#if {@autogrind = 1} {transfer @herbnum fresh @herb from @freshherbcont to mort}}

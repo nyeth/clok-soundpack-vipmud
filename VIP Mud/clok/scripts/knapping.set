@@ -1,0 +1,7 @@
+
+#Alias {autoknap} {#if {NOT %defined(autoknap) OR @autoknap = 0} {@autoknap = 1;#say {autoknapping enabled.}} {#say {autoknapping disabled.};@autoknap = 0}} {}
+#trigger {You remove a* * flake from *} {#if {@autoknap = 1} {knap broadhead}}
+
+#trigger {You've finished, and are holding a* * broadhead.} {#if {@autoknap = 1} {put broadhead in @cart}}
+
+#trigger {You put a* * broadhead in the * that is in the room.} {#if {@autoknap = 1} {get flake}}

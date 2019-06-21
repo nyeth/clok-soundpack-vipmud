@@ -1,0 +1,4 @@
+#Alias {autoplay} {#if {NOT %defined(autoplay) OR @autoplay = 0} {@autoplay = 1;#say {Automatic playing enabled}} {@autoplay = 0;#say {automatic playing disabled.}}} {}
+
+#trigger {You begin playing a * tune on your * with *.} {#if {@autoplay = 1} {play %1}}
+#trigger {You run through some scales on your *.} {#if {@autoplay = 1} {play scales}}

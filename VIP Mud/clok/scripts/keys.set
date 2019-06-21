@@ -1,0 +1,25 @@
+;sound control keys
+#key f9 {#math vol {@vol - 5};#play {clok\Misc\roundtime.wav} @vol;#say {@vol percent};#if {@vol < 5} {@vol = 5}} {}
+#key f10 {#math vol {@vol + 5};#play {clok\Misc\roundtime.wav} @vol;#say {@vol percent};#if {@vol > 100} {@vol = 100}} {}
+;numpad
+#Key {Control-NUMPAD1} {peer southwest} {}
+#Key {Control-NUMPAD2} {peer south} {}
+#Key {Control-NUMPAD3} {peer southeast} {}
+#Key {Control-NUMPAD4} {peer west} {}
+#Key {Control-NUMPAD5} {peer down} {}
+#key {control-shift-NUMPAD5} {peer up} {}
+#Key {Control-NUMPAD6} {peer  east} {}
+#Key {Control-NUMPAD7} {peer northwest} {}
+#Key {Control-NUMPAD8} {peer north} {}
+#Key {Control-NUMPAD9} {peer northeast} {}
+#Key {Control-NUMPADDASH} {peer down} {}
+#key {control-NUMPADPLUS} {peer up} {}
+#key numpad1 {sw;#var ReturnDirection ne}
+#key numpad3 {se;#var ReturnDirection nw}
+#key numpad7 {nw;#var ReturnDirection se}
+#key numpad9 {ne;#var ReturnDirection sw}
+#key numpaddash {d;#var ReturnDirection u}
+#key numpadplus {u;#var ReturnDirection d}
+#key {f2} {options ignorechat} {}
+#key {ctrl-f2} {options ignoretells} {}
+#key {shift-f2} {options questions} {}
